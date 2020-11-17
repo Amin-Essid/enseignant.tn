@@ -36,6 +36,7 @@ const main = async () => {
   // await User.delete({});
 
   const app = express();
+  app.use("/files", express.static(path.join(__dirname, "../files")));
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
