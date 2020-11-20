@@ -20,17 +20,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const graphql_upload_1 = require("graphql-upload");
 const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
+const uuid_1 = require("uuid");
 let FileResolver = class FileResolver {
     addFile({ createReadStream, filename }) {
         return __awaiter(this, void 0, void 0, function* () {
+            let realFilename = filename;
+            while (fs_1.existsSync(path_1.default.join(__dirname, `/../../files/${realFilename}`))) {
+                realFilename = uuid_1.v4().toString() + filename;
+            }
             return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
                 createReadStream()
-                    .pipe(fs_1.createWriteStream(__dirname + `/../../files/${filename}`))
+                    .pipe(fs_1.createWriteStream(__dirname + `/../../files/${realFilename}`))
                     .on("finish", () => resolve(true))
                     .on("error", (error) => {
                     console.log(error);
