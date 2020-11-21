@@ -19,7 +19,7 @@ import { User } from "./entities/User";
 import { Upvote } from "./entities/UpVote";
 import { createUserLoader } from "./utils/createUserLoader";
 import { createupvoteLoader } from "./utils/createUpvoteLoader";
-import { FileResolver } from "./resolvers/File";
+import { FileResolver } from "./resolvers/file";
 
 const main = async () => {
   const conn = await createConnection({
