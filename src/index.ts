@@ -91,7 +91,7 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(parseInt(process.env.PORT), () => {
+  app.listen(process.env.PORT, () => {
     console.log("server started on localhost:4000");
   });
 };
