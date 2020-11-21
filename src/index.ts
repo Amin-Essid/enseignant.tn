@@ -61,9 +61,9 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        sameSite: "lax", // csrf
+        // sameSite: "lax", // csrf
         secure: __prod__, // cookie only works in https
-        domain: __prod__ ? "share-education.vercel.app" : undefined,
+        // domain: __prod__ ? "share-education.vercel.app" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
