@@ -26,20 +26,24 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    synchronize: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User, Upvote],
   });
-  // await conn.runMigrations();
+  await conn.runMigrations();
 
   // await Post.delete({});
-  // await User.delete({});
+  // await Like.delete({});
 
   const app = express();
   app.use("/files", express.static(path.join(__dirname, "../files")));
 
   const RedisStore = connectRedis(session);
-  const redis = new Redis(process.env.REDIS_URL);
+  const redis = new Redis({
+    port: 10260,
+    host: process.env.REDIS_URL, // Redis host
+    password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
+  });
   app.set("trust proxy", 1);
   app.use(
     cors({

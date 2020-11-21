@@ -38,14 +38,18 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         type: "postgres",
         url: process.env.DATABASE_URL,
         logging: true,
-        synchronize: true,
         migrations: [path_1.default.join(__dirname, "./migrations/*")],
         entities: [Post_1.Post, User_1.User, UpVote_1.Upvote],
     });
+    yield conn.runMigrations();
     const app = express_1.default();
     app.use("/files", express_1.default.static(path_1.default.join(__dirname, "../files")));
     const RedisStore = connect_redis_1.default(express_session_1.default);
-    const redis = new ioredis_1.default(process.env.REDIS_URL);
+    const redis = new ioredis_1.default({
+        port: 10260,
+        host: process.env.REDIS_URL,
+        password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
+    });
     app.set("trust proxy", 1);
     app.use(cors_1.default({
         origin: process.env.CORS_ORIGIN,
