@@ -11,7 +11,7 @@ import { UserResolver } from "./resolvers/user";
 import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
-// import cors from "cors";
+import cors from "cors";
 import { createConnection } from "typeorm";
 import path from "path";
 import { Post } from "./entities/Post";
@@ -45,12 +45,12 @@ const main = async () => {
     password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
   });
   app.set("trust proxy", 1);
-  // app.use(
-  //   cors({
-  //     origin: "http://localhost:3000",
-  //     credentials: true,
-  //   })
-  // );
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
 
   app.use(
     session({
