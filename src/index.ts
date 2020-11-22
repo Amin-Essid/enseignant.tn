@@ -45,12 +45,13 @@ const main = async () => {
     password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
   });
   app.set("trust proxy", 1);
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true,
-    })
-  );
+  // app.use(
+  //   cors({
+  //     origin: "http://localhost:3000",
+  //     credentials: true,
+  //   })
+  // );
+
   app.use(
     session({
       name: COOKIE_NAME,
@@ -86,9 +87,11 @@ const main = async () => {
     }),
   });
 
+  const corsOptions = { credentials: true, origin: "http://localhost:3000" };
+
   apolloServer.applyMiddleware({
     app,
-    cors: false,
+    cors: corsOptions,
   });
 
   //use parseInt(process.env.PORT) in developement if needed
