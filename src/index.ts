@@ -45,12 +45,11 @@ const main = async () => {
     password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
   });
   app.set("trust proxy", 1);
-  app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true,
-    })
-  );
+  const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
+  app.use(cors(corsOptions));
 
   app.use(
     session({
@@ -62,9 +61,10 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        // sameSite: "none", // csrf
-        // secure: __prod__, // cookie only works in https
-        // domain: __prod__ ? "share-education.vercel.app" : undefined,
+        secure: __prod__, // cookie only works in https
+        // use those with a costum domain to pass the cookies in production
+        sameSite: "lax",
+        domain: __prod__ ? "share-education.com" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -86,8 +86,6 @@ const main = async () => {
       upvoteLoader: createupvoteLoader(),
     }),
   });
-
-  const corsOptions = { credentials: true, origin: "http://localhost:3000" };
 
   apolloServer.applyMiddleware({
     app,
