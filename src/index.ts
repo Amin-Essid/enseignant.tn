@@ -64,7 +64,7 @@ const main = async () => {
         secure: __prod__, // cookie only works in https
         // use those with a costum domain to pass the cookies in production
         sameSite: "lax",
-        domain: __prod__ ? ".share-education.com" : undefined,
+        domain: __prod__ ? ".share-education.heroku.app" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
