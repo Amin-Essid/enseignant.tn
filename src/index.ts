@@ -44,7 +44,7 @@ const main = async () => {
     host: process.env.REDIS_URL, // Redis host
     password: "1fBrzu1dM31n6ES8jr0ICkEdSh35CbYC",
   });
-  // app.set("trust proxy", 1);
+  app.set("trust proxy", 1);
   app.use(
     cors({
       origin: "http://localhost:3000",
