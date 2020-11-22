@@ -87,10 +87,11 @@ const main = async () => {
     }),
   });
 
-  // const corsOptions = { credentials: true, origin: "http://localhost:3000" };
+  const corsOptions = { credentials: true, origin: "http://localhost:3000" };
 
   apolloServer.applyMiddleware({
     app,
+    cors: corsOptions,
   });
 
   //use parseInt(process.env.PORT) in developement if needed
