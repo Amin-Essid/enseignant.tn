@@ -26,11 +26,11 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    synchronize: true,
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User, Upvote],
   });
-  // await conn.runMigrations();
+  await conn.runMigrations();
 
   // await Post.delete({});
   // await User.delete({});
@@ -40,13 +40,12 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
+  const corsOption = {
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+  };
   app.set("trust proxy", 1);
-  app.use(
-    cors({
-      origin: process.env.CORS_ORIGIN,
-      credentials: true,
-    })
-  );
+  app.use(cors(corsOption));
   app.use(
     session({
       name: COOKIE_NAME,
@@ -59,7 +58,7 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: __prod__, // cookie only works in https
-        domain: __prod__ ? ".codeponder.com" : undefined,
+        domain: __prod__ ? "$your-costum-domain" : undefined, //so that cookies can pass from backend to frontend
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -84,7 +83,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: false,
+    cors: corsOption,
   });
 
   app.listen(parseInt(process.env.PORT), () => {

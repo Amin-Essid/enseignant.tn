@@ -4,7 +4,7 @@
   "port": 5432,
   "username": "postgres",
   "password": "amin417838",
-  "database": "teachbase",
+  "database": "teachbase3",
   "entities": ["dist/entities/*.js"],
   "migrations": ["dist/migrations/*.js"]
 }
