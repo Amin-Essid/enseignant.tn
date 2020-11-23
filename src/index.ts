@@ -46,7 +46,7 @@ const main = async () => {
   });
   app.set("trust proxy", 1);
   const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   };
   app.use(cors(corsOptions));
@@ -64,7 +64,7 @@ const main = async () => {
         secure: __prod__, // cookie only works in https
         // use those with a costum domain to pass the cookies in production
         sameSite: "lax",
-        domain: __prod__ ? ".share-education.heroku.app" : undefined,
+        domain: __prod__ ? ".herokuapp.com" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
