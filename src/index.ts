@@ -40,12 +40,12 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
-  const corsOption = {
+  const corsConfig = {
     origin: process.env.CORS_ORIGIN,
     credentials: true,
   };
   app.set("trust proxy", 1);
-  app.use(cors(corsOption));
+  app.use(cors(corsConfig));
   app.use(
     session({
       name: COOKIE_NAME,
@@ -83,7 +83,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
-    cors: corsOption,
+    cors: corsConfig,
   });
 
   app.listen(parseInt(process.env.PORT), () => {
