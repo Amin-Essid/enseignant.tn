@@ -60,4 +60,4 @@ FileResolver = __decorate([
     type_graphql_1.Resolver()
 ], FileResolver);
 exports.FileResolver = FileResolver;
-//# sourceMappingURL=File.js.map
+//# sourceMappingURL=file.js.map

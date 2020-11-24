@@ -19,7 +19,7 @@ import { User } from "./entities/User";
 import { Upvote } from "./entities/UpVote";
 import { createUserLoader } from "./utils/createUserLoader";
 import { createupvoteLoader } from "./utils/createUpvoteLoader";
-import { FileResolver } from "./resolvers/File";
+import { FileResolver } from "./resolvers/file";
 
 const main = async () => {
   const conn = await createConnection({
@@ -33,7 +33,7 @@ const main = async () => {
   await conn.runMigrations();
 
   // await Post.delete({});
-  // await User.delete({});
+  // await Like.delete({});
 
   const app = express();
   app.use("/files", express.static(path.join(__dirname, "../files")));
@@ -56,9 +56,10 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        sameSite: "lax", // csrf
         secure: __prod__, // cookie only works in https
+        sameSite: "lax",
         domain: __prod__ ? "$your-costum-domain" : undefined, //so that cookies can pass from backend to frontend
+        // use those with a costum domain to pass the cookies in production
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
@@ -86,7 +87,8 @@ const main = async () => {
     cors: corsConfig,
   });
 
-  app.listen(parseInt(process.env.PORT), () => {
+  //use parseInt(process.env.PORT) in developement if needed
+  app.listen(process.env.PORT, () => {
     console.log("server started on localhost:4000");
   });
 };

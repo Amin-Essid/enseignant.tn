@@ -32,7 +32,7 @@ const User_1 = require("./entities/User");
 const UpVote_1 = require("./entities/UpVote");
 const createUserLoader_1 = require("./utils/createUserLoader");
 const createUpvoteLoader_1 = require("./utils/createUpvoteLoader");
-const File_1 = require("./resolvers/File");
+const file_1 = require("./resolvers/file");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield typeorm_1.createConnection({
         type: "postgres",
@@ -46,12 +46,12 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use("/files", express_1.default.static(path_1.default.join(__dirname, "../files")));
     const RedisStore = connect_redis_1.default(express_session_1.default);
     const redis = new ioredis_1.default(process.env.REDIS_URL);
-    const corsOption = {
+    const corsConfig = {
         origin: process.env.CORS_ORIGIN,
         credentials: true,
     };
     app.set("trust proxy", 1);
-    app.use(cors_1.default(corsOption));
+    app.use(cors_1.default(corsConfig));
     app.use(express_session_1.default({
         name: constants_1.COOKIE_NAME,
         store: new RedisStore({
@@ -61,8 +61,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
             httpOnly: true,
-            sameSite: "lax",
             secure: constants_1.__prod__,
+            sameSite: "lax",
             domain: constants_1.__prod__ ? "$your-costum-domain" : undefined,
         },
         saveUninitialized: false,
@@ -71,7 +71,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [hello_1.HelloResolver, post_1.PostResolver, user_1.UserResolver, File_1.FileResolver],
+            resolvers: [hello_1.HelloResolver, post_1.PostResolver, user_1.UserResolver, file_1.FileResolver],
             validate: false,
         }),
         context: ({ req, res }) => ({
@@ -84,9 +84,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     apolloServer.applyMiddleware({
         app,
-        cors: corsOption,
+        cors: corsConfig,
     });
-    app.listen(parseInt(process.env.PORT), () => {
+    app.listen(process.env.PORT, () => {
         console.log("server started on localhost:4000");
     });
 });
